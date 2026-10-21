@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="DSAverse - The complete, interactive DSA learning platform designed for engineering students. Learn C++ Data Structures & Algorithms with structured roadmaps, interactive visual diagrams, step-by-step dry runs, and weakness analytics." />
+    <meta property="og:title" content="DSAverse | Learn DSA Smarter" />
+    <meta property="og:description" content="DSAverse - The complete, interactive DSA learning platform designed for engineering students. Learn C++ Data Structures & Algorithms with structured roadmaps, interactive visual diagrams, step-by-step dry runs, and weakness analytics." />
+    <title>DSAverse | Learn DSA Smarter</title>
+    <!-- Inline theme init: prevents flash of wrong theme -->
+    <script>
+      (function() {
+        var theme = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+        } else {
+          // default to dark
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body class="antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
