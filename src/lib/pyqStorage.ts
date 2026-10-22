@@ -125,6 +125,7 @@ export async function getPapersForDepartment(departmentId: string): Promise<Ques
     })
   );
 
+<<<<<<< HEAD
   // Filter out any uploaded duplicates that conflict with default papers
   const defaultTitles = new Set(defaultPapers.map((p) => p.title.trim().toLowerCase()));
   const defaultSubjectCodes = new Set(defaultPapers.map((p) => p.subjectCode.trim().toLowerCase()));
@@ -140,6 +141,9 @@ export async function getPapersForDepartment(departmentId: string): Promise<Ques
   });
 
   return [...defaultPapers, ...uniqueUploaded];
+=======
+  return [...hydratedUploaded, ...defaultPapers];
+>>>>>>> ecbfa17 (DSAverse)
 }
 
 /**

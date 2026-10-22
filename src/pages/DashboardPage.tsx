@@ -108,6 +108,7 @@ export const DashboardPage: React.FC = () => {
             System Date: <span className="font-mono font-semibold text-teal-700 dark:text-teal-300">{systemTodayDate}</span> • Track your checklist progress and coding consistency.
           </p>
         </div>
+<<<<<<< HEAD
 
         <div className="flex items-center space-x-3">
           <button
@@ -125,6 +126,8 @@ export const DashboardPage: React.FC = () => {
             <span>Practice Problems ({solvedCount}/{totalProblems})</span>
           </Link>
         </div>
+=======
+>>>>>>> ecbfa17 (DSAverse)
       </div>
 
       {/* Streak Alert Notification banner */}

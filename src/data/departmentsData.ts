@@ -50,6 +50,7 @@ export const DEPARTMENTS: Department[] = [
     availableSemesters: ['Semester 3'],
     defaultPapers: [
       {
+<<<<<<< HEAD
         id: 'pict-aids-ds-insem-2026',
         departmentId: 'computer-engineering',
         title: 'AIDS',
@@ -68,6 +69,11 @@ export const DEPARTMENTS: Department[] = [
         id: 'pict-ce-ds-insem-2025',
         departmentId: 'computer-engineering',
         title: 'CE',
+=======
+        id: 'pict-ce-ds-insem-2025',
+        departmentId: 'computer-engineering',
+        title: 'Data Structures (1303101) - PICT In-Sem Exam',
+>>>>>>> ecbfa17 (DSAverse)
         subjectCode: '1303101',
         year: 'OCT-2025',
         semester: 'S.Y. B.Tech (CE) SEM-III',
@@ -82,7 +88,11 @@ export const DEPARTMENTS: Department[] = [
       {
         id: 'pict-ete-dsa-insem-2025',
         departmentId: 'computer-engineering',
+<<<<<<< HEAD
         title: 'ETE',
+=======
+        title: 'Data Structures and Algorithms (0305161) - PICT In-Sem Exam',
+>>>>>>> ecbfa17 (DSAverse)
         subjectCode: '0305161',
         year: 'OCT-2025',
         semester: 'S.Y. B.Tech (ETE) SEM-III',
@@ -95,9 +105,30 @@ export const DEPARTMENTS: Department[] = [
         fileSize: '41 KB',
       },
       {
+<<<<<<< HEAD
         id: 'pict-entc-dsa-insem-2026',
         departmentId: 'computer-engineering',
         title: 'E&TCE',
+=======
+        id: 'pict-aids-ds-insem-2026',
+        departmentId: 'computer-engineering',
+        title: 'Data Structures (2643PC12) - PICT In-Sem Exam',
+        subjectCode: '2643PC12',
+        year: 'AUG-OCT 2026',
+        semester: 'S.Y. B.Tech (AI&DS) SEM-III',
+        examType: 'In-Sem',
+        pattern: 'Autonomous Pattern',
+        marks: 20,
+        duration: '1 Hour',
+        pdfUrl: '/assets/aistudio/AIDS_DS_c766eaf0.pdf',
+        isGivenSample: true,
+        fileSize: '2.3 MB',
+      },
+      {
+        id: 'pict-entc-dsa-insem-2026',
+        departmentId: 'computer-engineering',
+        title: 'Data Structures and Algorithms (2603MD16) - PICT In-Sem Exam',
+>>>>>>> ecbfa17 (DSAverse)
         subjectCode: '2603MD16',
         year: 'AUG-OCT 2026',
         semester: 'S.Y. B.Tech (E&TCE) SEM-III',
@@ -126,7 +157,11 @@ export const DEPARTMENTS: Department[] = [
       {
         id: 'it-insem-ds-2025',
         departmentId: 'informational-technology',
+<<<<<<< HEAD
         title: 'CE',
+=======
+        title: 'Data Structures (1303101) - PICT In-Sem Exam',
+>>>>>>> ecbfa17 (DSAverse)
         subjectCode: '1303101',
         year: 'OCT-2025',
         semester: 'S.Y. B.Tech (SEM-III)',
@@ -155,7 +190,11 @@ export const DEPARTMENTS: Department[] = [
       {
         id: 'aids-insem-ds-2026',
         departmentId: 'artificial-intelligence-and-data-science',
+<<<<<<< HEAD
         title: 'AIDS',
+=======
+        title: 'Data Structures (2643PC12) - PICT In-Sem Exam',
+>>>>>>> ecbfa17 (DSAverse)
         subjectCode: '2643PC12',
         year: 'AUG-OCT 2026',
         semester: 'S.Y. B.Tech (AI&DS) SEM-III',
@@ -184,7 +223,11 @@ export const DEPARTMENTS: Department[] = [
       {
         id: 'entc-insem-dsa-2026',
         departmentId: 'electronics-and-telecommunication-engineering',
+<<<<<<< HEAD
         title: 'E&TCE',
+=======
+        title: 'Data Structures and Algorithms (2603MD16) - PICT In-Sem Exam',
+>>>>>>> ecbfa17 (DSAverse)
         subjectCode: '2603MD16 / 0305161',
         year: 'AUG-OCT 2026',
         semester: 'S.Y. B.Tech (E&TCE) SEM-III',
@@ -213,7 +256,11 @@ export const DEPARTMENTS: Department[] = [
       {
         id: 'ece-insem-dsa-2025',
         departmentId: 'electronics-and-computer-engineering',
+<<<<<<< HEAD
         title: 'ETE',
+=======
+        title: 'Data Structures and Algorithms (0305161) - PICT In-Sem Exam',
+>>>>>>> ecbfa17 (DSAverse)
         subjectCode: '0305161',
         year: 'OCT-2025',
         semester: 'S.Y. B.Tech (ETE) SEM-III',

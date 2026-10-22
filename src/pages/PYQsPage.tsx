@@ -7,14 +7,21 @@ import {
   FileCheck,
   ExternalLink
 } from 'lucide-react';
+<<<<<<< HEAD
 import { DEPARTMENTS } from '../data/departmentsData';
+=======
+>>>>>>> ecbfa17 (DSAverse)
 import type { QuestionPaper } from '../data/departmentsData';
 import { getPapersForDepartment } from '../lib/pyqStorage';
 import { PdfViewerModal } from '../components/pyqs/PdfViewerModal';
 
 export const PYQsPage: React.FC = () => {
+<<<<<<< HEAD
   // Selected department (defaults to computer-engineering)
   const [selectedDeptId, setSelectedDeptId] = useState<string>('computer-engineering');
+=======
+  const selectedDeptId = 'computer-engineering';
+>>>>>>> ecbfa17 (DSAverse)
   const [papers, setPapers] = useState<QuestionPaper[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,6 +43,7 @@ export const PYQsPage: React.FC = () => {
 
   useEffect(() => {
     loadData(selectedDeptId);
+<<<<<<< HEAD
   }, [selectedDeptId]);
 
   // Split papers into the 2 requested columns: INSEM and ENDSEM
@@ -52,6 +60,13 @@ export const PYQsPage: React.FC = () => {
       seenIds.add(p.id);
       return true;
     });
+=======
+  }, []);
+
+  // Split papers into the 2 requested columns: INSEM and ENDSEM
+  const insemPapers = useMemo(() => {
+    return papers.filter((p) => p.examType === 'In-Sem');
+>>>>>>> ecbfa17 (DSAverse)
   }, [papers]);
 
   const endsemPapers = useMemo(() => {
@@ -61,8 +76,13 @@ export const PYQsPage: React.FC = () => {
   return (
     <div className="min-h-screen py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6">
       
+<<<<<<< HEAD
       {/* ─── Top Header with Department Selector ─── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-theme-border gap-3">
+=======
+      {/* ─── Top Header ─── */}
+      <div className="flex items-center justify-between pb-4 border-b border-theme-border">
+>>>>>>> ecbfa17 (DSAverse)
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-teal-500/25">
             <FileText className="w-5 h-5 text-white" />
@@ -73,6 +93,7 @@ export const PYQsPage: React.FC = () => {
             </h1>
           </div>
         </div>
+<<<<<<< HEAD
 
         {/* Clean, compact Department Dropdown */}
         <div className="flex items-center space-x-2">
@@ -89,6 +110,8 @@ export const PYQsPage: React.FC = () => {
             ))}
           </select>
         </div>
+=======
+>>>>>>> ecbfa17 (DSAverse)
       </div>
 
       {/* ─── ONLY 2 COLUMNS: INSEM AND ENDSEM ─── */}

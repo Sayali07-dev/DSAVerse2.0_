@@ -96,6 +96,275 @@ Provide a concise, encouraging, and pedagogically clear response:
     }
   });
 
+<<<<<<< HEAD
+=======
+  // ─── Community Comments Backend Endpoints ─────────────────────────────────
+  const COMMENTS_FILE = path.join(__dirname, 'data', 'community_comments.json');
+
+  const readCommentsFromDisk = (): any[] => {
+    try {
+      if (fs.existsSync(COMMENTS_FILE)) {
+        const raw = fs.readFileSync(COMMENTS_FILE, 'utf-8');
+        return JSON.parse(raw);
+      }
+    } catch (e) {
+      console.error('Error reading comments file from disk:', e);
+    }
+    return [];
+  };
+
+  const writeCommentsToDisk = (comments: any[]): boolean => {
+    try {
+      const dir = path.dirname(COMMENTS_FILE);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(COMMENTS_FILE, JSON.stringify(comments, null, 2), 'utf-8');
+      return true;
+    } catch (e) {
+      console.error('Error writing comments file to disk:', e);
+      return false;
+    }
+  };
+
+  // Get all comments or filter by postId
+  app.get('/api/community/comments', (req: Request, res: Response) => {
+    const { postId } = req.query;
+    const comments = readCommentsFromDisk();
+    if (postId && typeof postId === 'string') {
+      const filtered = comments.filter((c: any) => c.postId === postId);
+      return res.status(200).json({ success: true, comments: filtered, count: filtered.length });
+    }
+    return res.status(200).json({ success: true, comments, count: comments.length });
+  });
+
+  // Create a new comment and save to backend
+  app.post('/api/community/comments', (req: Request, res: Response) => {
+    try {
+      const { postId, content, author, authorRole, authorAvatar } = req.body;
+      if (!postId || !content || !content.trim()) {
+        return res.status(400).json({ success: false, error: 'Post ID and comment content are required.' });
+      }
+
+      const comments = readCommentsFromDisk();
+      const newComment = {
+        id: `comment-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+        postId,
+        author: (author || 'Engineering Student').trim(),
+        authorRole: (authorRole || 'PICT Student').trim(),
+        authorAvatar: authorAvatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+        content: content.trim(),
+        createdAt: new Date().toISOString(),
+        timeAgo: 'Just now',
+        likes: 0,
+      };
+
+      comments.push(newComment);
+      const saved = writeCommentsToDisk(comments);
+      if (!saved) {
+        return res.status(500).json({ success: false, error: 'Failed to write comment to backend storage.' });
+      }
+
+      const postCommentsCount = comments.filter((c: any) => c.postId === postId).length;
+
+      return res.status(201).json({
+        success: true,
+        message: 'Comment successfully saved to backend',
+        comment: newComment,
+        commentsCount: postCommentsCount,
+      });
+    } catch (err: any) {
+      console.error('Error saving community comment:', err);
+      return res.status(500).json({ success: false, error: 'Internal server error while saving comment.' });
+    }
+  });
+
+  // Like a comment
+  app.post('/api/community/comments/:id/like', (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const comments = readCommentsFromDisk();
+      const commentIndex = comments.findIndex((c: any) => c.id === id);
+      if (commentIndex === -1) {
+        return res.status(404).json({ success: false, error: 'Comment not found' });
+      }
+      comments[commentIndex].likes = (comments[commentIndex].likes || 0) + 1;
+      writeCommentsToDisk(comments);
+      return res.status(200).json({ success: true, comment: comments[commentIndex] });
+    } catch (err: any) {
+      console.error('Error liking comment:', err);
+      return res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+  });
+
+  // ─── Mistake Journal Backend Endpoints ────────────────────────────────────
+  const MISTAKES_FILE = path.join(__dirname, 'data', 'mistakes.json');
+
+  const defaultMistakes = [
+    {
+      id: 'm-1',
+      problemId: 'binary-search',
+      problemTitle: 'Binary Search Rotated Range',
+      topic: 'Searching',
+      mistakeType: 'Boundary Condition',
+      date: '2026-08-12',
+      whatWentWrong: 'Used low < high instead of low <= high. Missed searching single-element subarray when boundaries converged.',
+      whatILearned: 'When search boundaries [low..high] are inclusive, the termination condition must be low <= high.',
+      reviewed: false
+    },
+    {
+      id: 'm-2',
+      problemId: 'subsets',
+      problemTitle: 'Subsets Generation Backtracking',
+      topic: 'Recursion',
+      mistakeType: 'Logic Error',
+      date: '2026-08-10',
+      whatWentWrong: 'Forgot to call path.pop_back() after the recursive explore branch, causing unwanted elements to leak into subsequent branches.',
+      whatILearned: 'Every choose step must have an exact symmetric unchoose rollback step when returning from recursive exploration.',
+      reviewed: true
+    },
+    {
+      id: 'm-3',
+      problemId: 'two-sum',
+      problemTitle: 'Two Sum Complement Lookup',
+      topic: 'Hashing',
+      mistakeType: 'Off-by-one',
+      date: '2026-08-08',
+      whatWentWrong: 'Inserted current element into hash map BEFORE searching for its complement, causing an element to pair with itself when target == 2 * val.',
+      whatILearned: 'Check hash map for complement (target - nums[i]) BEFORE inserting the current number into the table.',
+      reviewed: true
+    }
+  ];
+
+  const readMistakesFromDisk = (): any[] => {
+    try {
+      if (fs.existsSync(MISTAKES_FILE)) {
+        const raw = fs.readFileSync(MISTAKES_FILE, 'utf-8');
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.error('Error reading mistakes file from disk:', e);
+    }
+    return defaultMistakes;
+  };
+
+  const writeMistakesToDisk = (mistakes: any[]): boolean => {
+    try {
+      const dir = path.dirname(MISTAKES_FILE);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(MISTAKES_FILE, JSON.stringify(mistakes, null, 2), 'utf-8');
+      return true;
+    } catch (e) {
+      console.error('Error writing mistakes file to disk:', e);
+      return false;
+    }
+  };
+
+  // GET all mistakes
+  app.get('/api/mistakes', (_req: Request, res: Response) => {
+    const mistakes = readMistakesFromDisk();
+    return res.status(200).json({ success: true, mistakes, count: mistakes.length });
+  });
+
+  // POST create new mistake
+  app.post('/api/mistakes', (req: Request, res: Response) => {
+    try {
+      const { problemTitle, topic, mistakeType, whatWentWrong, whatILearned, problemId } = req.body;
+      if (!problemTitle || !problemTitle.trim() || !whatWentWrong || !whatWentWrong.trim()) {
+        return res.status(400).json({
+          success: false,
+          error: 'Problem title and description of what went wrong are required.'
+        });
+      }
+
+      const mistakes = readMistakesFromDisk();
+      const newMistake = {
+        id: `m-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        problemId: (problemId || 'custom-problem').trim(),
+        problemTitle: problemTitle.trim(),
+        topic: (topic || 'Searching').trim(),
+        mistakeType: (mistakeType || 'Boundary Condition').trim(),
+        date: new Date().toISOString().split('T')[0],
+        whatWentWrong: whatWentWrong.trim(),
+        whatILearned: (whatILearned || '').trim(),
+        reviewed: false,
+        createdAt: new Date().toISOString()
+      };
+
+      mistakes.unshift(newMistake);
+      const saved = writeMistakesToDisk(mistakes);
+      if (!saved) {
+        return res.status(500).json({ success: false, error: 'Failed to write mistake entry to disk.' });
+      }
+
+      return res.status(201).json({
+        success: true,
+        message: 'Mistake logged successfully to backend storage.',
+        mistake: newMistake,
+        count: mistakes.length
+      });
+    } catch (err: any) {
+      console.error('Error creating mistake entry:', err);
+      return res.status(500).json({ success: false, error: 'Internal server error while saving mistake.' });
+    }
+  });
+
+  // PATCH toggle reviewed or update mistake
+  app.patch('/api/mistakes/:id', (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const mistakes = readMistakesFromDisk();
+      const idx = mistakes.findIndex((m: any) => m.id === id);
+      if (idx === -1) {
+        return res.status(404).json({ success: false, error: 'Mistake entry not found.' });
+      }
+
+      const current = mistakes[idx];
+      const updated = {
+        ...current,
+        ...req.body,
+        id: current.id, // Immutable ID
+      };
+
+      mistakes[idx] = updated;
+      writeMistakesToDisk(mistakes);
+
+      return res.status(200).json({
+        success: true,
+        message: 'Mistake updated successfully.',
+        mistake: updated
+      });
+    } catch (err: any) {
+      console.error('Error updating mistake:', err);
+      return res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+  });
+
+  // DELETE a mistake
+  app.delete('/api/mistakes/:id', (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const mistakes = readMistakesFromDisk();
+      const filtered = mistakes.filter((m: any) => m.id !== id);
+      if (filtered.length === mistakes.length) {
+        return res.status(404).json({ success: false, error: 'Mistake not found' });
+      }
+
+      writeMistakesToDisk(filtered);
+      return res.status(200).json({ success: true, message: 'Mistake entry deleted successfully.' });
+    } catch (err: any) {
+      console.error('Error deleting mistake:', err);
+      return res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+  });
+
+
+>>>>>>> ecbfa17 (DSAverse)
   // ─── Inline PDF Serving Endpoint (For Chrome & Edge Native Display) ─────────
   app.get(['/assets/aistudio/:filename', '/pyqs/:filename'], (req: Request, res: Response, next: NextFunction) => {
     const filename = path.basename(req.params.filename);
